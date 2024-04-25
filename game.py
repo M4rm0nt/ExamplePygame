@@ -34,8 +34,8 @@ schrift = pygame.font.SysFont(None, 24)
 
 # Spielerposition und Eigenschaften
 # Das sind die Startposition und Eigenschaften des Spielers
-spieler_x = BREITE // 2 - SPIELER_GROESSE // 2
-spieler_y = HÖHE // 2 - SPIELER_GROESSE // 2
+spieler_x = 400
+spieler_y = 300
 spieler_geschwindigkeit = 1
 spieler_energie = 100
 gesammelte_objekte = 0
@@ -43,8 +43,8 @@ abgelegte_objekte = []
 
 # Spielobjekte initialisieren
 # Das sind die Startpositionen der Spielobjekte
-energiegeber_x, energiegeber_y = BREITE - 50, HÖHE - 50
-sammel_objekt_x, sammel_objekt_y = BREITE - 200, HÖHE - 200
+energiegeber_x, energiegeber_y = 700, 500
+sammel_objekt_x, sammel_objekt_y = 600, 400
 ablageplatz_x, ablageplatz_y = 100, 100
 
 # Spielstatusvariablen
@@ -129,7 +129,7 @@ while läuft:
 
     # Balken für die Spielerenergie zeichnen
     # Hier wird der Balken für die Spielerenergie gezeichnet
-    energie_balken_breite = spieler_energie * SPIELER_GROESSE / 100
+    energie_balken_breite = 50
     energie_balken = pygame.Rect(spieler_x, spieler_y - 10, energie_balken_breite, 5)
     pygame.draw.rect(bildschirm, GRÜN, energie_balken)
 
@@ -148,26 +148,33 @@ while läuft:
     # Hier wird eine Nachricht angezeigt, wenn die Energie leer ist und die E-Taste zum Aufladen gedrückt wird
     if spieler_energie <= 0:
         nachricht_text = schrift.render("Deine Energie ist leer, drücke E um sie wieder aufzuladen", True, SCHWARZ)
-        bildschirm.blit(nachricht_text, (BREITE // 2 - 200, HÖHE // 2))
+        bildschirm.blit(nachricht_text, (200, 300))
+
+    # Spiel zurücksetzen, wenn die Energie leer ist und E gedrückt wird
+    # Hier wird das Spiel zurückgesetzt, wenn die Energie leer ist und die E-Taste gedrückt wird
+    if spieler_energie <= 0 and tasten[pygame.K_e]:
+        spieler_energie = 100
+        spieler_x = 400
+        spieler_y = 300
 
     # Nachricht anzeigen, wenn alle Objekte abgelegt wurden und die R-Taste zum Neustart gedrückt wird
     # Hier wird eine Nachricht angezeigt, wenn alle Objekte abgelegt wurden und die R-Taste zum Neustart gedrückt wird
     if len(abgelegte_objekte) == 5:
         nachricht_text = schrift.render("Glückwunsch, du hast alle Objekte abgelegt! R für restart", True, SCHWARZ)
-        bildschirm.blit(nachricht_text, (BREITE // 2 - 200, HÖHE // 2))
-
-    # display.flip() wird verwendet um die Änderungen auf dem Bildschirm anzuzeigen
-    # Das musst du am Ende deiner Schleife haben damit die Änderungen auf dem Bildschirm angezeigt werden
-    pygame.display.flip()
+        bildschirm.blit(nachricht_text, (200, 300))
 
     # Spiel zurücksetzen, wenn alle Objekte abgelegt wurden und R gedrückt wird
     # Hier wird das Spiel zurückgesetzt, wenn alle Objekte abgelegt wurden und die R-Taste gedrückt wird
     if len(abgelegte_objekte) == 5 and tasten[pygame.K_r]:
-        spieler_x = BREITE // 2 - SPIELER_GROESSE // 2
-        spieler_y = HÖHE // 2 - SPIELER_GROESSE // 2
+        spieler_x = 400
+        spieler_y = 300
         spieler_energie = 100
         gesammelte_objekte = 0
         abgelegte_objekte = []
+
+    # display.flip() wird verwendet um die Änderungen auf dem Bildschirm anzuzeigen
+    # Das musst du am Ende deiner Schleife haben damit die Änderungen auf dem Bildschirm angezeigt werden
+    pygame.display.flip()
 
 # Pygame beenden
 pygame.quit()
