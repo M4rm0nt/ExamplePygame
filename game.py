@@ -126,11 +126,6 @@ while läuft:
     for objekt_pos in abgelegte_objekte:
         pygame.draw.rect(bildschirm, SCHWARZ, (*objekt_pos, OBJEKT_GROESSE, OBJEKT_GROESSE))
 
-    # Balken für die Spielerenergie zeichnen
-    energie_balken_breite = 50
-    energie_balken = pygame.Rect(spieler_x, spieler_y - 10, energie_balken_breite, 5)
-    pygame.draw.rect(bildschirm, GRÜN, energie_balken)
-
     # Textinformationen zum Spielstatus anzeigen
     energie_text = schrift.render(f'Energie: {spieler_energie:.2f}', True, SCHWARZ)
     bildschirm.blit(energie_text, (10, 10))
