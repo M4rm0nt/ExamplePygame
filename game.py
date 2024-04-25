@@ -42,6 +42,7 @@ ablageplatz_x, ablageplatz_y = 100, 100
 # Spielhauptschleife
 läuft = True
 spiel_gewonnen = False
+
 while läuft:
     for ereignis in pygame.event.get():
         if ereignis.type == pygame.QUIT:
@@ -69,7 +70,7 @@ while läuft:
     # Rechtecke für Kollisionsprüfungen erstellen
     spieler_rechteck = pygame.Rect(spieler_x, spieler_y, SPIELER_GROESSE, SPIELER_GROESSE)
     energiegeber_rechteck = pygame.Rect(energiegeber_x, energiegeber_y, OBJEKT_GROESSE, OBJEKT_GROESSE)
-    objekt_rechteck = pygame.Rect(sammel_objekt_x, sammel_objekt_y, OBJEKT_GROESSE, OBJEKT_GROESSE)
+    sammel_objekt_rechteck = pygame.Rect(sammel_objekt_x, sammel_objekt_y, OBJEKT_GROESSE, OBJEKT_GROESSE)
     ablageplatz_rechteck = pygame.Rect(ablageplatz_x, ablageplatz_y, OBJEKT_GROESSE, OBJEKT_GROESSE)
 
     # Kollisionen mit den Objekten überprüfen und entsprechende Aktionen ausführen
@@ -78,7 +79,7 @@ while läuft:
         energiegeber_x = BREITE - 50
         energiegeber_y = HÖHE - 50
 
-    if spieler_rechteck.colliderect(objekt_rechteck) and gesammelte_objekte < 5:
+    if spieler_rechteck.colliderect(sammel_objekt_rechteck) and gesammelte_objekte < 5:
         gesammelte_objekte += 1
         sammel_objekt_x = -100
 
