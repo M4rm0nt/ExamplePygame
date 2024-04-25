@@ -41,7 +41,7 @@ computer_start_x = 100  # Start-X-Position des Computers
 computer_start_y = 500  # Start-Y-Position des Computers
 computer_x = computer_start_x  # x-Position des Computers
 computer_y = computer_start_y  # y-Position des Computers
-computer_geschwindigkeit = 0.5  # Geschwindigkeit, mit der sich der Computer bewegt
+computer_geschwindigkeit = 0.4  # Geschwindigkeit, mit der sich der Computer bewegt
 computer_objekt = None  # Objekt, das der Computer gestohlen hat
 computer_ablageplatz_x = 100  # Ablage-X-Position des Computers
 computer_ablageplatz_y = 500  # Ablage-Y-Position des Computers
@@ -155,30 +155,6 @@ while läuft:
         gesammelte_objekte -= 1
         sammel_objekt_x = random.randint(0, BREITE - OBJEKT_GROESSE)
         sammel_objekt_y = random.randint(0, HÖHE - OBJEKT_GROESSE)
-
-    # Wenn der Computer ein gestohlenes Objekt hat, bringt er es zum Ablageplatz
-    if computer_objekt is not None:
-        target_x, target_y = computer_ablageplatz_x, computer_ablageplatz_y
-        distance = ((computer_x - target_x) ** 2 + (computer_y - target_y) ** 2) ** 0.5
-        if distance > 0.1:  # Schwellenwert für die Annäherung
-            dx = target_x - computer_x
-            dy = target_y - computer_y
-            distance = ((dx ** 2) + (dy ** 2)) ** 0.5
-            if distance != 0:
-                computer_x += computer_geschwindigkeit * (dx / distance)
-                computer_y += computer_geschwindigkeit * (dy / distance)
-        else:
-            computer_abgelegte_objekte.append((computer_ablageplatz_x, computer_ablageplatz_y))
-            computer_objekt = None
-            # Computer nimmt die Verfolgung des Spielers wieder auf
-            if computer_x < spieler_x:
-                computer_x += computer_geschwindigkeit
-            elif computer_x > spieler_x:
-                computer_x -= computer_geschwindigkeit
-            if computer_y < spieler_y:
-                computer_y += computer_geschwindigkeit
-            elif computer_y > spieler_y:
-                computer_y -= computer_geschwindigkeit
 
     # Spielerenergie begrenzen, um sicherzustellen, dass sie zwischen 0 und 100 liegt
     spieler_energie = max(0, min(spieler_energie, 100))
