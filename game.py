@@ -1,4 +1,5 @@
 # Importieren der benötigten Module
+import os
 import random  # Modul für Zufallszahlen
 import pygame  # Pygame-Bibliothek für die Spieleentwicklung
 import sys  # Modul für Systemfunktionalitäten
@@ -21,6 +22,20 @@ BLAU = (0, 0, 255)
 bildschirm = pygame.display.set_mode((BREITE, HÖHE))  # Erstellen des Fensters
 pygame.display.set_caption("Rechtecksteuerung")  # Titel des Fensters setzen
 
+
+def bild_laden(name):
+    basispfad = os.path.dirname(os.path.abspath(__file__))
+    bildpfad = os.path.join(basispfad, "bilder", f"{name}.png")
+
+    if not os.path.exists(bildpfad):
+        raise FileNotFoundError(f"Das Bild {bildpfad} konnte nicht gefunden werden.")
+
+    try:
+        bild = pygame.image.load(bildpfad).convert_alpha()
+        return bild
+    except pygame.error as e:
+        raise IOError(f"Fehler beim Laden des Bildes {name}.png: {e}")
+
 # Festlegen der Größe für Spieler und Objekte
 SPIELER_GROESSE = 50
 OBJEKT_GROESSE = 30
@@ -31,6 +46,7 @@ schrift = pygame.font.SysFont(None, 24)
 # Festlegen der Spielerposition und -eigenschaften
 spieler_x = 400  # x-Position des Spielers
 spieler_y = 300  # y-Position des Spielers
+spieler_bild = bild_laden('lastwagen')  # Bild des Spielers
 spieler_geschwindigkeit = 1  # Geschwindigkeit, mit der sich der Spieler bewegt
 spieler_energie = 100  # Energie des Spielers
 gesammelte_objekte = 0  # Anzahl der vom Spieler gesammelten Objekte
@@ -128,7 +144,7 @@ while läuft:
             target_x, target_y = spieler_x, spieler_y
 
     # Rechtecke für Kollisionsprüfungen erstellen
-    spieler_rechteck = pygame.Rect(spieler_x, spieler_y, SPIELER_GROESSE, SPIELER_GROESSE)
+    spieler_rechteck = bildschirm.blit(spieler_bild, (spieler_x, spieler_y)) # Rechteck für Spieler
     energiegeber_rechteck = pygame.Rect(energiegeber_x, energiegeber_y, OBJEKT_GROESSE, OBJEKT_GROESSE)
     sammel_objekt_rechteck = pygame.Rect(sammel_objekt_x, sammel_objekt_y, OBJEKT_GROESSE, OBJEKT_GROESSE)
     ablageplatz_rechteck = pygame.Rect(ablageplatz_x, ablageplatz_y, OBJEKT_GROESSE, OBJEKT_GROESSE)
@@ -163,7 +179,7 @@ while läuft:
     bildschirm.fill(WEISS)
 
     # Rechtecke für Spieler, Objekte und Ablageplatz zeichnen
-    pygame.draw.rect(bildschirm, SCHWARZ, (spieler_x, spieler_y, SPIELER_GROESSE, SPIELER_GROESSE))
+    bildschirm.blit(spieler_bild, (spieler_x, spieler_y)) # Spieler zeichnen, um ihn über das png-Bild zu legen
     pygame.draw.rect(bildschirm, ROT, (energiegeber_x, energiegeber_y, OBJEKT_GROESSE, OBJEKT_GROESSE))
     pygame.draw.rect(bildschirm, GRÜN, (sammel_objekt_x, sammel_objekt_y, OBJEKT_GROESSE, OBJEKT_GROESSE))
     pygame.draw.rect(bildschirm, BRAUN, (ablageplatz_x, ablageplatz_y, OBJEKT_GROESSE, OBJEKT_GROESSE))
